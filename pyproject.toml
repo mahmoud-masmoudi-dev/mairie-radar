@@ -1,5 +1,5 @@
 [project]
-name = "maire"
+name = "backend"
 version = "0.1.0"
 description = "AI-powered system for detecting budget anomalies in French city halls using Agentic RAG"
 readme = "README.md"
@@ -99,6 +99,6 @@ warn_unused_configs = true
 disallow_untyped_defs = true
 
 [project.scripts]
-maire-api = "maire.api.main:main"
-maire-collect = "maire.etl.cli:main"
-maire-analyze = "maire.agents.cli:main"
+backend-api = "backend.api.main:main"
+backend-collect = "backend.etl.cli:main"
+backend-analyze = "backend.agents.cli:main"
