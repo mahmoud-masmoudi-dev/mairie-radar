@@ -1,0 +1,104 @@
+[project]
+name = "maire"
+version = "0.1.0"
+description = "AI-powered system for detecting budget anomalies in French city halls using Agentic RAG"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    { name = "Mairie Radar Team", email = "contact@mairie-radar.com" }
+]
+license = { text = "MIT" }
+keywords = ["ai", "rag", "agents", "budget", "anomaly-detection", "france", "municipalities"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Government",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    # Core framework
+    "langchain>=0.1.0",
+    "langchain-community>=0.0.20",
+    "langchain-openai>=0.0.8",
+    
+    # Vector store
+    "weaviate-client>=4.4.0",
+    
+    # Web framework
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.27.0",
+    "websockets>=12.0",
+    
+    # Data processing
+    "pandas>=2.2.0",
+    "numpy>=1.26.0",
+    "beautifulsoup4>=4.12.0",
+    "requests>=2.31.0",
+    "selenium>=4.18.0",
+    
+    # Document processing
+    "pypdf2>=3.0.0",
+    "pdfplumber>=0.10.0",
+    "python-multipart>=0.0.9",
+    
+    # Configuration
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.6.0",
+    "pydantic-settings>=2.2.0",
+    
+    # Logging and monitoring
+    "structlog>=24.1.0",
+    "rich>=13.7.0",
+    
+    # Testing (for development)
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "httpx>=0.27.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=24.0.0",
+    "isort>=5.13.0",
+    "flake8>=7.0.0",
+    "mypy>=1.8.0",
+    "pre-commit>=3.6.0",
+]
+
+acp = [
+    # ACP SDK will be added when available
+    # "acp-sdk>=1.0.0",
+]
+
+production = [
+    # Production dependencies for Phase 3+
+    "redis>=5.0.0",
+    "psycopg2-binary>=2.9.0",
+    "celery>=5.3.0",
+    "prometheus-client>=0.20.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.black]
+line-length = 88
+target-version = ['py312']
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[project.scripts]
+maire-api = "maire.api.main:main"
+maire-collect = "maire.etl.cli:main"
+maire-analyze = "maire.agents.cli:main"

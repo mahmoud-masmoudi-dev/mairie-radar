@@ -4,6 +4,113 @@
 
 Mairie Radar uses a layered architecture designed for scalability, maintainability, and extensibility. The system is built around four core layers with additional supporting components.
 
+## Architecture Diagram
+
+```mermaid
+graph TB
+    subgraph "Data Sources"
+        DS1[data.gouv.fr API]
+        DS2[Mairie Websites]
+        DS3[PDF Documents]
+        DS4[CSV/JSON Files]
+    end
+
+    subgraph "ETL Layer"
+        COL[Collectors<br/>- Web Scrapers<br/>- API Clients]
+        PARSE[Parsers<br/>- PDF Extractor<br/>- Data Normalizer]
+        VAL[Validators<br/>- Data Quality<br/>- Schema Validation]
+    end
+
+    subgraph "Storage Layer"
+        WV[Weaviate<br/>Vector Store]
+        FS[File Storage<br/>- Raw Documents<br/>- Processed Data]
+        CACHE[Redis Cache<br/>- API Responses<br/>- Temp Data]
+    end
+
+    subgraph "RAG Layer"
+        EMB[Embedding Service<br/>- Document Chunking<br/>- Vector Generation]
+        RET[Retriever<br/>- Semantic Search<br/>- Hybrid Search]
+        GEN[Generator<br/>- LLM Integration<br/>- Response Synthesis]
+    end
+
+    subgraph "Intelligence Layer (ACP)"
+        COORD[Coordinator Agent<br/>- Orchestration<br/>- Task Distribution]
+        COLL_AG[Collector Agent<br/>- Data Discovery<br/>- Source Management]
+        ANAL[Analyzer Agent<br/>- Anomaly Detection<br/>- Pattern Recognition]
+        REP[Reporter Agent<br/>- Alert Generation<br/>- Insights Creation]
+    end
+
+    subgraph "API Layer"
+        FAST[FastAPI<br/>- REST Endpoints<br/>- WebSocket Support]
+        AUTH[Auth Service<br/>- JWT Tokens<br/>- RBAC]
+        RATE[Rate Limiter]
+    end
+
+    subgraph "Frontend"
+        UI[Chat UI<br/>@llamaindex/chat-ui]
+        DASH[Dashboard<br/>- Visualizations<br/>- Analytics]
+        ADMIN[Admin Panel<br/>- Config<br/>- Monitoring]
+    end
+
+    subgraph "Monitoring"
+        LOG[Logging<br/>- ELK Stack]
+        METRIC[Metrics<br/>- Prometheus/Grafana]
+        TRACE[Tracing<br/>- OpenTelemetry]
+    end
+
+    DS1 --> COL
+    DS2 --> COL
+    DS3 --> COL
+    DS4 --> COL
+    
+    COL --> PARSE
+    PARSE --> VAL
+    VAL --> WV
+    VAL --> FS
+    
+    WV <--> EMB
+    EMB <--> RET
+    RET <--> GEN
+    
+    COORD <--> COLL_AG
+    COORD <--> ANAL
+    COORD <--> REP
+    
+    RET <--> COORD
+    GEN <--> COORD
+    
+    FAST <--> COORD
+    FAST <--> RET
+    
+    UI <--> FAST
+    DASH <--> FAST
+    ADMIN <--> FAST
+    
+    FAST --> CACHE
+    AUTH --> FAST
+    RATE --> FAST
+    
+    FAST --> LOG
+    FAST --> METRIC
+    COORD --> TRACE
+```
+
+## Development Phases
+
+### POC/MVP Focus (Phases 1-2)
+For rapid prototyping and beta testing, we focus on core functionality:
+- **Core Layers**: ETL, Storage (Weaviate only), RAG, Intelligence (ACP)
+- **Simplified Stack**: Python + LangChain + FastAPI + Chat UI
+- **Package Manager**: uv (project name: "maire")
+- **Excluded**: Redis caching, PostgreSQL, monitoring, async processing
+
+### Production Focus (Phases 3-4)
+Advanced features for scalability and enterprise readiness:
+- **Full monitoring stack**: Prometheus, Grafana, logging
+- **Caching layer**: Redis for performance
+- **Database**: PostgreSQL for metadata and audit
+- **Async processing**: Celery/RabbitMQ for background tasks
+
 ## Core Architecture Layers
 
 ### 1. ETL Layer (Extract, Transform, Load)

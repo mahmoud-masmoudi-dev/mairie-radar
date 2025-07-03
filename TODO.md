@@ -13,12 +13,23 @@
 
 ### Goal: Demonstrate feasibility of core concepts
 
+### Technology Stack:
+- **Backend**: Python + LangChain + FastAPI
+- **Package Manager**: uv (project name: "maire")
+- **Vector Store**: Weaviate (free tier)
+- **Frontend**: React + @llamaindex/chat-ui
+- **Focus**: Core layers only (ETL, RAG, ACP, Chat UI)
+
 ### Tasks:
 
 #### 1.1 Environment Setup
-- [ ] Initialize Python project structure
-- [ ] Set up virtual environment
-- [ ] Create requirements.txt with basic dependencies
+- [ ] Initialize uv project structure with name "maire"
+- [ ] Set up modular Python architecture
+  - [ ] `/maire/etl/` - ETL layer modules
+  - [ ] `/maire/rag/` - RAG layer modules  
+  - [ ] `/maire/agents/` - ACP intelligence layer
+  - [ ] `/maire/api/` - FastAPI application
+- [ ] Create pyproject.toml with uv dependencies
 - [ ] Configure .env.example file
 - [ ] Set up Weaviate free tier account
 - [ ] Create basic logging configuration
@@ -34,43 +45,58 @@
   - [ ] Parse CSV/JSON budget files
 - [ ] Store raw data locally
 
-#### 1.3 LangChain/LangGraph Integration
-- [ ] Set up basic LangChain environment
-- [ ] Create simple document loader
+#### 1.3 RAG Layer Implementation
+- [ ] Set up LangChain environment
+- [ ] Create document loaders for budget data
 - [ ] Implement text splitter for budget documents
-- [ ] Create basic embedding pipeline
-- [ ] Test with sample budget data
+- [ ] Create embedding pipeline
+- [ ] Implement Weaviate integration
+- [ ] Test semantic search functionality
 
-#### 1.4 Weaviate Integration
-- [ ] Connect to Weaviate cloud instance
-- [ ] Create schema for budget data
-- [ ] Implement data upload pipeline
-- [ ] Test vector search functionality
-- [ ] Create basic query interface
+#### 1.4 ACP Intelligence Layer
+- [ ] Install and configure ACP-SDK
+- [ ] Implement basic Coordinator Agent
+- [ ] Create simple Collector Agent
+- [ ] Build basic Analyzer Agent
+- [ ] Set up agent communication protocol
+- [ ] Test multi-agent workflow
 
 #### 1.5 Simple Anomaly Detection
 - [ ] Define basic anomaly rules
   - [ ] Budget exceeding thresholds
   - [ ] Unusual category spending
   - [ ] Year-over-year variations
-- [ ] Implement rule-based detection
-- [ ] Generate simple alerts
+- [ ] Implement rule-based detection through agents
+- [ ] Generate simple alerts via Reporter Agent
 
-#### 1.6 POC Demo
+#### 1.6 Basic Chat UI
+- [ ] Set up React/Next.js project
+- [ ] Install @llamaindex/chat-ui
+- [ ] Create basic FastAPI endpoints
+- [ ] Integrate chat UI with backend
+- [ ] Test end-to-end workflow
+
+#### 1.7 POC Demo
 - [ ] Create Jupyter notebook demo
-- [ ] Prepare sample dataset
+- [ ] Prepare sample dataset from 3-5 city halls
 - [ ] Document findings and limitations
 - [ ] Create presentation materials
+- [ ] Deploy POC for beta testing
 
 ---
 
 ## 🚀 Phase 2: MVP (Minimum Viable Product) - 8 weeks
 
-### Goal: Build working system with core features
+### Goal: Build working system with core features for beta testing
+
+### Technology Stack:
+- **Same as POC**: Python + uv + LangChain + FastAPI + Chat UI
+- **Enhanced**: Better error handling, validation, UI/UX
+- **Still Excluded**: Caching, monitoring, PostgreSQL, async processing
 
 ### Tasks:
 
-#### 2.1 Enhanced Data Collection
+#### 2.1 Enhanced ETL Layer
 - [ ] Implement robust data collectors
   - [ ] API client for data.gouv.fr
   - [ ] Advanced web scraping with Selenium
@@ -78,10 +104,10 @@
   - [ ] Handle authentication where needed
 - [ ] Create data validation pipeline
 - [ ] Implement retry logic and error handling
-- [ ] Set up data versioning
+- [ ] Set up data versioning in file system
 
-#### 2.2 Agentic Architecture
-- [ ] Design agent workflow with LangGraph
+#### 2.2 Enhanced ACP Intelligence Layer
+- [ ] Expand agent capabilities
   - [ ] Collector Agent
     - [ ] Schedule-based collection
     - [ ] Source prioritization
@@ -94,17 +120,19 @@
     - [ ] Statistical analysis
     - [ ] Pattern recognition
     - [ ] Anomaly scoring
-- [ ] Implement agent communication
-- [ ] Create orchestration layer
+- [ ] Implement robust agent communication
+- [ ] Create orchestration workflows
+- [ ] Add agent error handling and recovery
 
-#### 2.3 Advanced Vector Store
-- [ ] Design comprehensive schema
-  - [ ] Budget categories
-  - [ ] Time series data
+#### 2.3 Enhanced RAG Layer
+- [ ] Design comprehensive Weaviate schema
+  - [ ] Budget categories taxonomy
+  - [ ] Time series data structure
   - [ ] Metadata indexing
-- [ ] Implement semantic search
+- [ ] Implement hybrid search (semantic + keyword)
 - [ ] Create similarity comparisons
 - [ ] Build query optimization
+- [ ] Add re-ranking algorithms
 
 #### 2.4 LLM Integration
 - [ ] Integrate OpenAI/Claude API
@@ -115,37 +143,53 @@
 - [ ] Implement response parsing
 - [ ] Add fallback mechanisms
 
-#### 2.5 Basic UI/API
-- [ ] Create FastAPI backend
-  - [ ] REST endpoints
-  - [ ] Authentication
-  - [ ] Rate limiting
-- [ ] Build simple web interface
-  - [ ] Search functionality
-  - [ ] Results display
-  - [ ] Basic visualizations
-- [ ] Implement API documentation
+#### 2.5 Enhanced UI/API
+- [ ] Improve FastAPI backend
+  - [ ] REST endpoints for all layers
+  - [ ] Basic authentication
+  - [ ] Simple rate limiting
+  - [ ] WebSocket for real-time updates
+- [ ] Enhanced chat interface
+  - [ ] Better @llamaindex/chat-ui integration
+  - [ ] File upload for budget documents
+  - [ ] Search history
+  - [ ] Export functionality
+- [ ] Basic dashboard
+  - [ ] Anomaly visualization
+  - [ ] City comparison charts
+  - [ ] Simple analytics
+- [ ] API documentation with FastAPI
 
-#### 2.6 Testing Framework
+#### 2.6 Testing & Validation
 - [ ] Unit tests for core modules
 - [ ] Integration tests for agents
+- [ ] End-to-end tests for workflows
 - [ ] Mock data for testing
+- [ ] Beta tester feedback collection
 - [ ] Performance benchmarks
 
 ---
 
 ## 🔧 Phase 3: Prototype - 12 weeks
 
-### Goal: Refine system with advanced features
+### Goal: Add production-ready features and scalability
+
+### Technology Stack:
+- **Core**: Same as MVP (Python + uv + LangChain + FastAPI + Chat UI)
+- **New Additions**: Redis caching, PostgreSQL, monitoring, async processing
+- **Focus**: Performance, reliability, user experience
 
 ### Tasks:
 
 #### 3.1 Scalable Data Pipeline
 - [ ] Implement Apache Airflow for orchestration
+- [ ] Add Redis caching layer
+- [ ] Implement PostgreSQL for metadata and audit
 - [ ] Add data quality monitoring
 - [ ] Create data lineage tracking
 - [ ] Build incremental update system
 - [ ] Implement data archival strategy
+- [ ] Add async processing with Celery
 
 #### 3.2 Advanced Analytics
 - [ ] Machine learning models
@@ -268,8 +312,10 @@
 ### MVP Success Criteria:
 - Process 50+ city halls automatically
 - 90% accuracy in data extraction
-- <2 second search response time
+- <3 second search response time (without caching)
 - Generate meaningful insights
+- Positive beta tester feedback
+- Stable multi-agent workflows
 
 ### Prototype Success Criteria:
 - Handle 500+ city halls
