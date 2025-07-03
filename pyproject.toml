@@ -22,6 +22,10 @@ dependencies = [
     "langchain>=0.1.0",
     "langchain-community>=0.0.20",
     "langchain-openai>=0.0.8",
+    "langchain-google-genai>=1.0.0",
+    
+    # Agent Communication Protocol
+    "acp-sdk>=0.1.0",
     
     # Vector store
     "weaviate-client>=4.4.0",
@@ -68,8 +72,8 @@ dev = [
 ]
 
 acp = [
-    # ACP SDK will be added when available
-    # "acp-sdk>=1.0.0",
+    # ACP SDK is now included in main dependencies
+    "acp-sdk>=0.1.0",
 ]
 
 production = [
@@ -102,3 +106,4 @@ disallow_untyped_defs = true
 backend-api = "backend.api.main:main"
 backend-collect = "backend.etl.cli:main"
 backend-analyze = "backend.agents.cli:main"
+backend-test-agent = "backend.agents.test_agent:main"

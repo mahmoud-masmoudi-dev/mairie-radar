@@ -37,6 +37,8 @@ class Settings(BaseSettings):
     openai_model: str = Field(default="gpt-4-turbo-preview", description="OpenAI model")
     anthropic_api_key: Optional[str] = Field(default=None, description="Anthropic API key")
     anthropic_model: str = Field(default="claude-3-sonnet-20240229", description="Anthropic model")
+    google_api_key: Optional[str] = Field(default=None, description="Google Gemini API key")
+    google_model: str = Field(default="gemini-2.0-flash-exp", description="Google Gemini model")
     
     # Vector Store Configuration (Weaviate)
     weaviate_url: Optional[str] = Field(default=None, description="Weaviate cluster URL")
@@ -92,7 +94,13 @@ class Settings(BaseSettings):
     
     def get_llm_config(self) -> dict:
         """Get LLM configuration based on available API keys."""
-        if self.openai_api_key:
+        if self.google_api_key:
+            return {
+                "provider": "google",
+                "api_key": self.google_api_key,
+                "model": self.google_model
+            }
+        elif self.openai_api_key:
             return {
                 "provider": "openai",
                 "api_key": self.openai_api_key,
@@ -105,7 +113,7 @@ class Settings(BaseSettings):
                 "model": self.anthropic_model
             }
         else:
-            raise ValueError("No LLM API key provided. Please set OPENAI_API_KEY or ANTHROPIC_API_KEY")
+            raise ValueError("No LLM API key provided. Please set GOOGLE_API_KEY, OPENAI_API_KEY, or ANTHROPIC_API_KEY")
     
     def get_weaviate_config(self) -> dict:
         """Get Weaviate configuration."""

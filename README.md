@@ -41,31 +41,32 @@ Mairie Radar is an intelligent monitoring system that leverages advanced AI tech
 
 ```
 mairie-radar/
-├── agents/              # LangGraph agents for different tasks
-├── chains/              # LangChain processing chains
-├── collectors/          # Data collection modules
-├── analyzers/           # Anomaly detection and analysis
-├── vectorstore/         # Weaviate integration
-├── utils/              # Utility functions
-├── config/             # Configuration files
-├── data/               # Local data storage
-├── tests/              # Test suite
-└── docs/               # Documentation
+├── backend/            # Python backend (uv project)
+│   ├── core/          # Configuration & logging
+│   ├── etl/           # Extract, Transform, Load layer
+│   ├── rag/           # Retrieval-Augmented Generation layer
+│   ├── agents/        # ACP Intelligence layer
+│   └── api/           # FastAPI application
+├── frontend/          # React chat UI (@llamaindex/chat-ui)
+├── tests/             # Test suite
+├── docs/              # Documentation
+├── data/              # Local data storage
+└── pyproject.toml     # Backend dependencies
 ```
 
 ## 🔧 Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/mairie-radar.git
+git clone https://github.com/mahmoud-masmoudi-dev/mairie-radar.git
 cd mairie-radar
 
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Backend setup (Python with uv)
+uv sync  # Install backend dependencies
 
-# Install dependencies
-pip install -r requirements.txt
+# Frontend setup (React with npm/yarn)
+cd frontend
+npm install  # or yarn install
 
 # Set up environment variables
 cp .env.example .env
@@ -75,20 +76,18 @@ cp .env.example .env
 ## 🚦 Quick Start
 
 ```python
-# Initialize the system
-from mairie_radar import MairieRadar
+# Backend API
+from backend.api.main import app
+import uvicorn
 
-# Create instance
-radar = MairieRadar()
+# Start the API server
+uvicorn.run(app, host="0.0.0.0", port=8000)
 
-# Collect data for a specific city
-radar.collect_budget_data("Paris")
+# Or use the CLI
+# uv run backend-api
 
-# Run anomaly detection
-anomalies = radar.detect_anomalies()
-
-# Generate report
-radar.generate_report(anomalies)
+# Frontend - Open http://localhost:3000
+# The chat UI will connect to the backend API
 ```
 
 ## 📊 Data Sources
